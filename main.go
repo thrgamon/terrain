@@ -82,21 +82,18 @@ func Foo(terr *Terrain, rain int) *Terrain {
 
 	for i := 0; i < rain; i++ {
 		spot := rng.Intn(terr.width)
-		trickleDown := false
 		e := terr.heightmap[spot]
+		
+    e.depth = e.depth - 2
+
 		if e.right != nil && e.right.depth < e.depth {
-			e.right.depth = e.right.depth - 1
-			trickleDown = true
+      trickleRight(e)
 		}
 
 		if e.left != nil && e.left.depth < e.depth {
-			e.left.depth = e.left.depth - 1
-			trickleDown = true
+      trickleLeft(e)
 		}
 
-		if !trickleDown {
-			e.depth = e.depth - 1
-		}
 	}
 
   for _, earth := range terr.heightmap {
@@ -106,6 +103,20 @@ func Foo(terr *Terrain, rain int) *Terrain {
 	return terr
 }
 
+
+func trickleRight(e *Earth) {
+	if e.right != nil && e.right.depth < e.depth {
+		e.right.depth = e.right.depth - 1
+		trickleRight(e.right)
+	}
+}
+
+func trickleLeft(e *Earth) {
+	if e.left != nil && e.left.depth < e.depth {
+		e.left.depth = e.left.depth - 1
+		trickleLeft(e.left)
+	}
+}
 
 func slopify(e *Earth) {
 	if e.right != nil && e.right.depth-e.depth > 1 {
