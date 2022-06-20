@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <canvas id="canvas" width= "100px" height= "100px"></canvas>
+  <script>
+    const dpi = window.devicePixelRatio;
+    const canvas = document.getElementById('canvas');
+    const height = window.innerHeight
+    const width = window.innerWidth
+    canvas.width = width * 4;
+    canvas.height = height * 4;
+    canvas.style.width = width + "px";
+    canvas.style.height = height +"px";
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpi, dpi)
+    const data = {{.}}
+
+    ctx.setTransform(dpi * 2,0,0,dpi * 2,0,0)
+    ctx.beginPath()
+    var start = 0
+    ctx.moveTo(start, data[0]);
+    data.forEach((point, i) => {
+      ctx.lineTo(start, point);
+      start += canvas.width / data.length / (dpi * 2)
+    })
+    ctx.stroke();
+  </script>
+</body>
+</html>
