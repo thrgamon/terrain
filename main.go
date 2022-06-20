@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+  "os"
 )
 
 type Earth struct {
@@ -49,8 +50,9 @@ func (terr *Terrain) toSlice() (slizzard []int) {
 }
 
 func main() {
+	port := os.Getenv("PORT")
 	http.HandleFunc("/", chartHandler)
-	http.ListenAndServe(":8081", nil)
+	http.ListenAndServe("0.0.0.0:"+port, nil)
 }
 
 func chartHandler(w http.ResponseWriter, _ *http.Request) {
