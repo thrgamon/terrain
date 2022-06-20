@@ -99,13 +99,36 @@ func Foo(terr *Terrain, rain int) *Terrain {
 		}
 	}
 
-
-	for _, earth := range terr.heightmap {
-  	slopify(earth)
-	}
+  smooth := false
+  for smooth == false {
+    for _, earth := range terr.heightmap {
+      slopify(earth)
+    }
+    smooth = testSmoothness(terr)
+  }
 
 	return terr
 }
+
+func testSmoothness(t *Terrain) bool{
+  for _, earth := range t.heightmap {
+    if earth.right == nil {
+      continue
+    }
+    if diff(earth.depth, earth.right.depth) > 1 {
+      return false
+    }
+  }
+  return true
+}
+
+func diff(a, b int) int {
+   if a < b {
+      return b - a
+   }
+   return a - b
+}
+
 
 func slopify(e *Earth) {
 	if e.right != nil && e.right.depth-e.depth > 1 {
