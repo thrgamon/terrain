@@ -118,5 +118,15 @@ func slopify(e *Earth) {
 		slopify(e.left)
 	}
 
+  if e.right == nil {
+    e.depth = e.left.depth + 1
+    return
+  }
+
+  if e.left == nil {
+    e.depth = e.right.depth + 1
+    return
+  }
+
 	return
 }
