@@ -13,9 +13,16 @@ func TestFoo(t *testing.T) {
 	Foo(terr, 10)
 
 	got := terr.toSlice()
-	want := []int{8, 7, 8, 9, 9, 8, 7, 6, 5, 6}
+	want := []int{9, 7, 6, 7, 6, 5, 4, 3, 2, 3}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func BenchmarkFoo(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		terr := newTerrain(100, 100, testSeed)
+		Foo(terr, 100)
 	}
 }

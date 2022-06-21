@@ -4,8 +4,8 @@ import (
 	"html/template"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
-  "os"
 )
 
 type Earth struct {
@@ -85,26 +85,25 @@ func Foo(terr *Terrain, rain int) *Terrain {
 	for i := 0; i < rain; i++ {
 		spot := rng.Intn(terr.width)
 		e := terr.heightmap[spot]
-		
-    e.depth = e.depth - 2
+
+		e.depth = e.depth - 2
 
 		if e.right != nil && e.right.depth < e.depth {
-      trickleRight(e)
+			trickleRight(e)
 		}
 
 		if e.left != nil && e.left.depth < e.depth {
-      trickleLeft(e)
+			trickleLeft(e)
 		}
 
 	}
 
-  for _, earth := range terr.heightmap {
-    slopify(earth)
-  }
+	for _, earth := range terr.heightmap {
+		slopify(earth)
+	}
 
 	return terr
 }
-
 
 func trickleRight(e *Earth) {
 	if e.right != nil && e.right.depth < e.depth {
@@ -131,15 +130,15 @@ func slopify(e *Earth) {
 		slopify(e.left)
 	}
 
-  if e.right == nil {
-    e.depth = e.left.depth + 1
-    return
-  }
+	if e.right == nil {
+		e.depth = e.left.depth + 1
+		return
+	}
 
-  if e.left == nil {
-    e.depth = e.right.depth + 1
-    return
-  }
+	if e.left == nil {
+		e.depth = e.right.depth + 1
+		return
+	}
 
 	return
 }
